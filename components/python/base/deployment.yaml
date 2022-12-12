@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app.kubernetes.io/created-by: application-service
+    app.kubernetes.io/instance: python
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/name: python
+    app.kubernetes.io/part-of: test-app-167084251
+  name: python
+  namespace: zsv69g1w
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: python
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/instance: python
+    spec:
+      containers:
+      - image: quay.io/redhat-appstudio/user-workload:zsv69g1w-python
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8081
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        name: container-image
+        ports:
+        - containerPort: 8081
+        readinessProbe:
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          tcpSocket:
+            port: 8081
+        resources:
+          requests:
+            cpu: 10m
+            memory: 50Mi
+      imagePullSecrets:
+      - name: appstudio-token-aeab
+status: {}
